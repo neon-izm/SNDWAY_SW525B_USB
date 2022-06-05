@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include <libusb.h>
 
 #define VID 0x0483 // for SNDWAY
@@ -41,7 +43,7 @@ int main() {
         sendBuffer[0] = 0xb3;
         libusb_interrupt_transfer(handle, SEND_ADDRESS, sendBuffer, sizeof(sendBuffer), &sendLength, 100);
 
-        Sleep(100);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         r = libusb_interrupt_transfer(handle, RECEIVE_ADDRESS, receiveBuffer, sizeof(receiveBuffer), &receiveLength, 100);
         switch (r) {
             case 0:
